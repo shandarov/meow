@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE).then((cache) => {
             return cache.addAll([
                 '/img', 
-                '/meow'
+                '/meow/meow_waiting_5s.gif'
             ]);
         })
     );
