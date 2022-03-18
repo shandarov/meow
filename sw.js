@@ -6,6 +6,9 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE).then((cache) => {
             return cache.addAll([
+                '/',
+                '/index.html',
+                '/style.css',
                 '/meow/meow_waiting_5s.gif',
                 '/meow/meow_waiting_10s.gif'
             ]);
