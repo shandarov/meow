@@ -1,13 +1,32 @@
-// Если не работает, то оставьте эти обработчики событий в этом файле
+const CACHE = 'cache-only-v1';
 
-self.addEventListener('install', evt => {
+// При установке воркера мы должны закешировать часть данных (статику).
+self.addEventListener('install', (event) => {
     console.log("Install");
+    event.waitUntil(
+        caches.open(CACHE).then((cache) => {
+            return cache.addAll([
+                '/img', 
+                '/meow'
+            ]);
+        })
+    );
 });
+
+// При запросе на сервер (событие fetch), используем только данные из кэша.
+self.addEventListener('fetch', (event) =>
+    console.log("fetch data");
+    event.respondWith(fromCache(event.request));
+);
 
 self.addEventListener('activate', evt => {
     console.log("activate");
 });
 
-self.addEventListener('fetch', evt => {
-    console.log("fetch data");
-});
+function fromCache(request) {
+    return caches.open(CACHE).then((cache) =>
+      cache.match(request)
+          .then((matching) => matching || Promise.reject('no-match'))
+    );
+}
+
