@@ -15,7 +15,6 @@ self.addEventListener('install', (event) => {
 
 // При запросе на сервер (событие fetch), используем только данные из кэша.
 self.addEventListener('fetch', (event) =>
-    console.log("fetch data");
     event.respondWith(fromCache(event.request));
 );
 
